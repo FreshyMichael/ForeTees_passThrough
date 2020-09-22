@@ -1,7 +1,7 @@
 <?php
 /**
-* Plugin Name: Add PluginName
-* Plugin URI: https://github.com/FreshyMichael/Plugin-Starter
+* Plugin Name: ForeTees Member Pass-Through
+* Plugin URI: https://github.com/FreshyMichael/ForeTees_passThrough
 * Description: Add a Description
 * Version: 1.0.0
 * Author: FreshySites
@@ -24,10 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 require 'plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 // ***IMPORTANT*** Update this path to New Github Repository Master Branch Path
-	'https://github.com/FreshyMichael/Plugin-Starter',
+	'https://github.com/FreshyMichael/ForeTees_passThrough',
 	__FILE__,
 // ***IMPORTANT*** Update this to New Repository Master Branch Path
-	'Plugin-Starter'
+	'ForeTees_passThrough'
 );
 //Enable Releases
 $myUpdateChecker->getVcsApi()->enableReleaseAssets();
