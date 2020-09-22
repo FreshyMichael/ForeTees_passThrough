@@ -1,0 +1,14 @@
+input.ft_lgn_bttn{
+  	background-color:#436c2d;
+  	padding: 10px 25px 10px 25px;
+  	color:white !important;
+ 	border:none;
+  	cursor:pointer;
+  	transition-duration: 0.5s;
+	font-weight:700;
+}
+input.ft_lgn_bttn:hover{
+  	background-color:#707070!important;
+  	color:white !important;
+  	transition-duration: 0.5s;
+}
