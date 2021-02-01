@@ -3,7 +3,7 @@
 * Plugin Name: ForeTees Member Pass-Through
 * Plugin URI: https://github.com/FreshyMichael/ForeTees_passThrough
 * Description: Creates ForeTees Member ID Meta Field, and pass through form function - [foretees_passThru]
-* Version: 1.0.0
+* Version: 1.0.2
 * Author: FreshySites
 * Author URI: https://freshysites.com/
 * License: GNU v3.0
@@ -55,25 +55,38 @@ function foreTees_save_extra_profile_fields( $user_id ) {
 
 //Short Code Start
 add_shortcode('foretees_passThru', 'foretees_passThru_function');
-function foretees_init(){
+
 function foretees_passThru_function(){
 		//Get the current Username
 		$current_user = wp_get_current_user();
+
+		//Get the Member ID meta
 		$meta_key = 'memberID';
+
+		//POST the Member ID meta as user_name
 		$user_name = get_the_author_meta( $meta_key, $user_id );
 
-		/*Golf Login Form*/
-		echo "<div id='foreteesForm' style='max-width:80%;padding-left:10%;'><form action='https://www1.foretees.com/v5/servlet/Login' method='POST' target='_blank'><select id='activity' name='Activity' style='padding:8px 15px 8px 15px;'><option value=''>Select Activity...</option><option value='0'>Golf</option><option value='9999'>Dining/Events</option></select><div class='hiddenPassThrough' style='display:none;'><input type='text' id='clubname' name='clubname' value='binghamtoncc'><input type='text' id='user_name' name='user_name' value='$user_name'><input type='text' id='caller' name='caller' value='PDG4735'></div><input type='submit' name='Submit' class='ft_lgn_bttn' value='ForeTees Login'></form></div>";
+		$golf='0';
+		$dining='9999';
+		ob_start();
+		
+		echo '<div id=foretees_wrapper>';
+		echo "<form action='https://www1.foretees.com/v5/servlet/Login' method='POST' target='_blank'><div class='hiddenPassThrough' style='display:none;'><input type='text' id='clubname' name='clubname' value='binghamtoncc'><input type='text' id='user_name' name='user_name' value='$user_name'><input type='text' id='activity' name='activity' value='$golf'><input type='text' id='caller' name='caller' value='PDG4735'></div><input type='submit' class='ft_lgn_bttn' value='ForeTees Golf'></form>";
+		echo '<br>';
+		echo "<form action='https://www1.foretees.com/v5/servlet/Login' method='POST' target='_blank'><div class='hiddenPassThrough' style='display:none;'><input type='text' id='clubname' name='clubname' value='binghamtoncc'><input type='text' id='user_name' name='user_name' value='$user_name'><input type='text' id='activity' name='activity' value='$dining'><input type='text' id='caller' name='caller' value='PDG4735'></div><input type='submit' class='ft_lgn_bttn' value='ForeTees Dining'></form>";
+		echo '</div>';
+	$ReturnString = ob_get_contents();
+	ob_end_clean();
+	return $ReturnString;
 
 	}
-}
-add_action('init', 'foretees_init');
+
 
 
 
 /* Plugin Styles */
 function foreTees_styles() {
-    wp_enqueue_style('foreTees_styles', plugin_dir_url(__FILE__) . 'includes/foretees_styles.css', false, '1.0.0', 'all');
+    wp_enqueue_style('foreTees_styles', plugin_dir_url(__FILE__) . 'includes/foretees_styles.css', false, '1.0.2', 'all');
 }
 add_action( 'wp_enqueue_scripts', 'foreTees_styles' );
 //______________________________________________________________________________
