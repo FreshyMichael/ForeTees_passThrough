@@ -3,7 +3,7 @@
 * Plugin Name: ForeTees Member Pass-Through
 * Plugin URI: https://github.com/FreshyMichael/ForeTees_passThrough
 * Description: Creates ForeTees Member ID Meta Field, and pass through form function - [foretees_passThru]
-* Version: 1.0.2
+* Version: 1.0.3
 * Author: FreshySites
 * Author URI: https://freshysites.com/
 * License: GNU v3.0
@@ -45,10 +45,11 @@ add_action( 'edit_user_profile_update', 'foreTees_save_extra_profile_fields' );
 function foreTees_save_extra_profile_fields( $user_id ) {
 
 	if ( !current_user_can( 'edit_user', $user_id ) )
-		return false;
+	return false;
 
 	/* Copy and paste this line for additional fields. Make sure to change 'memberID' to the field ID. */
 	update_usermeta( $user_id, 'memberID', $_POST['memberID'] );
+
 }
 
 
@@ -57,27 +58,35 @@ function foreTees_save_extra_profile_fields( $user_id ) {
 add_shortcode('foretees_passThru', 'foretees_passThru_function');
 
 function foretees_passThru_function(){
-		//Get the current Username
+	
+		//Get the current User info
 		$current_user = wp_get_current_user();
+		$user_ID = get_current_user_id();
 
 		//Get the Member ID meta
 		$meta_key = 'memberID';
 
 		//POST the Member ID meta as user_name
-		$user_name = get_the_author_meta( $meta_key, $user_id );
+		$user_name = get_the_author_meta( $meta_key, $user_ID );
 
 		$golf='0';
 		$dining='9999';
+	
+		//echo ($user_name);
+	
 		ob_start();
-		
+
 		echo '<div id=foretees_wrapper>';
 		echo "<form action='https://www1.foretees.com/v5/servlet/Login' method='POST' target='_blank'><div class='hiddenPassThrough' style='display:none;'><input type='text' id='clubname' name='clubname' value='binghamtoncc'><input type='text' id='user_name' name='user_name' value='$user_name'><input type='text' id='activity' name='activity' value='$golf'><input type='text' id='caller' name='caller' value='PDG4735'></div><input type='submit' class='ft_lgn_bttn' value='ForeTees Golf'></form>";
 		echo '<br>';
 		echo "<form action='https://www1.foretees.com/v5/servlet/Login' method='POST' target='_blank'><div class='hiddenPassThrough' style='display:none;'><input type='text' id='clubname' name='clubname' value='binghamtoncc'><input type='text' id='user_name' name='user_name' value='$user_name'><input type='text' id='activity' name='activity' value='$dining'><input type='text' id='caller' name='caller' value='PDG4735'></div><input type='submit' class='ft_lgn_bttn' value='ForeTees Dining'></form>";
 		echo '</div>';
-	$ReturnString = ob_get_contents();
-	ob_end_clean();
-	return $ReturnString;
+	
+		$ReturnString = ob_get_contents();
+	
+		ob_end_clean();
+	
+		return $ReturnString;
 
 	}
 
